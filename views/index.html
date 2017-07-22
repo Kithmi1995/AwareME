@@ -66,7 +66,7 @@
             font-weight: 300;
         }
 
-        .controls {
+        #pac-input {
             background-color: #fff;
             font-family: Roboto;
             font-size: 15px;
@@ -77,7 +77,7 @@
             width: 400px;
         }
 
-        .controls:focus {
+        #pac-input:focus {
             border-color: #4d90fe;
         }
 
@@ -92,13 +92,22 @@
             width: 345px;
         }
     </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/jquery.datetimepicker.css" >
+
+    <script src="/build/jquery.datetimepicker.full.min.js"></script>
+
 </head>
 <body>
-<input id="start" class="controls" type="text" placeholder="Enter Starting Destination">
+<input id="pac-input" class="controls" type="text" placeholder="Enter Starting Destination">
 
-<input type="datetime" id="datetime" placeholder="Enter Starting Date and time">
+<label for="datetime-from">From:</label>
+<input type="datetime" id="datetime-from" class="controls datetimepicker">
 
-<input id="final" class="controls" type="text" placeholder="Enter Final Destination">
+<label for="datetime-to">To:</label>
+<input type="datetime" id="datetime-to" class="controls datetimepicker">
+
+
 <div id="map"></div>
 <script>
     // This example adds a search box to a map, using the Google Place Autocomplete
@@ -117,12 +126,9 @@
         });
 
         // Create the search box and link it to the UI element.
-        var start = document.getElementById('start');
-
-        var stop = document.getElementById('stop');
-
-        var searchBox = new google.maps.places.SearchBox(start);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(start);
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
@@ -182,5 +188,11 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkxICLv1Os6X3RaKF4zSdGFDxde72Pl1o&libraries=places&callback=initAutocomplete"
         async defer></script>
+
+<script>
+    $(function () {
+        jQuery('.datetimepicker').datetimepicker();
+    });
+</script>
 </body>
 </html>
