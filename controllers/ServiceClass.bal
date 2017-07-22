@@ -5,16 +5,17 @@ import ballerina.lang.time;
 service <http> Controller{
 
     resource mainHandler(message m,string origin,string destination,int year,int month,int date, int sTimeh,int sTimem) {
-        http:ClientConnector google = create http:ClientConnector("http://http://localhost:9090/Controller");
+        http:ClientConnector google = create http:ClientConnector("http://localhost:9090/Controller");
         message request = {};
 
         int i = 0;
-        while (i<10) {
-
+        while (i<=10) {
+            int j = sTimeh+(sTimem*i);
+            string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime="+<str>j ;
+            message response = http:ClientConnector.get(google,mn, request);
             i = i-1;
         }
-        string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime=" ;
-        message response = http:ClientConnector.get(google,mn, request);
+
         reply response;
     }
 
