@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Places Searchbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>
+        AwareME
+    </title>
     <style>
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
@@ -61,7 +66,7 @@
             font-weight: 300;
         }
 
-        #pac-input {
+        .controls {
             background-color: #fff;
             font-family: Roboto;
             font-size: 15px;
@@ -72,7 +77,7 @@
             width: 400px;
         }
 
-        #pac-input:focus {
+        .controls:focus {
             border-color: #4d90fe;
         }
 
@@ -89,7 +94,11 @@
     </style>
 </head>
 <body>
-<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<input id="start" class="controls" type="text" placeholder="Enter Starting Destination">
+
+<input type="datetime" id="datetime" placeholder="Enter Starting Date and time">
+
+<input id="final" class="controls" type="text" placeholder="Enter Final Destination">
 <div id="map"></div>
 <script>
     // This example adds a search box to a map, using the Google Place Autocomplete
@@ -108,9 +117,12 @@
         });
 
         // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        var start = document.getElementById('start');
+
+        var stop = document.getElementById('stop');
+
+        var searchBox = new google.maps.places.SearchBox(start);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(start);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
