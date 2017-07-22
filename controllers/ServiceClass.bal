@@ -10,15 +10,15 @@ service <http> Controller{
         http:ClientConnector google = create http:ClientConnector("http://localhost:9090/Controller");
         message request = {};
 
-        int i = 0;
-        while (i<=10) {
+
             int j = sTimeh+(sTimem*i);
             string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime="+<string>j ;
             message response = http:ClientConnector.get(google,mn, request);
             json j = messages:getJsonPayload(response);
+            int value = j.routes[2][2].value;
+            messages:setStringPayload(response,<string>value);
+        
 
-            i = i-1;
-        }
 
         reply response;
     }
