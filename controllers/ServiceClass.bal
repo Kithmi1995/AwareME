@@ -1,22 +1,25 @@
 import ballerina.net.http;
 import ballerina.lang.messages;
+import ballerina.net.uri;
 
 
 
 
 service <http> Controller{
 
-    resource mainHandler(message m,string origin,string destination,int year,int month,int date, int sTimeh,int sTimem) {
+    resource mainHandler(message m,string origin,string destination, int sTimeh,int sTimem) {
+
+
         http:ClientConnector google = create http:ClientConnector("http://localhost:9090/Controller");
         message request = {};
 
 
-            int j = sTimeh+(sTimem*i);
-            string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime="+<string>j ;
+            int jw = sTimeh+(sTimem*3);
+            string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime="+<string>jw ;
             message response = http:ClientConnector.get(google,mn, request);
             json j = messages:getJsonPayload(response);
-            int value = j.routes[2][2].value;
-            messages:setStringPayload(response,<string>value);
+            json value = j.routes[2][2].value;
+            messages:setJsonPayload(response,value);
         
 
 
@@ -26,7 +29,7 @@ service <http> Controller{
     resource getDirections(message s,string lat,string lon,string diptime){
         message request = {};
         http:ClientConnector googleDirections = create http:ClientConnector("https://maps.googleapis.com/maps/api/directions");
-        string getdirection = "/json?origin="+lat+"&destination="+lon+"&departure_time="+diptime+"&key=AIzaSyBSqIQu8X1Z0DkW-R3pORPPJ9u41oQ1ChM";
+        string getdirection = "/json?origin="+uri:encode(lat)+"&destination="+uri:encode(lon)+"&departure_time="+diptime+"&key=AIzaSyBSqIQu8X1Z0DkW-R3pORPPJ9u41oQ1ChM";
         message res = http:ClientConnector.get(googleDirections, getdirection, request);
         reply res;
     }
