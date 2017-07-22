@@ -1,5 +1,7 @@
 import ballerina.net.http;
-import ballerina.lang.time;
+import ballerina.lang.messages;
+
+
 
 
 service <http> Controller{
@@ -11,8 +13,10 @@ service <http> Controller{
         int i = 0;
         while (i<=10) {
             int j = sTimeh+(sTimem*i);
-            string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime="+<str>j ;
+            string mn = "/getDirections?lat="+origin+"&lon="+destination+"&diptime="+<string>j ;
             message response = http:ClientConnector.get(google,mn, request);
+            json j = messages:getJsonPayload(response);
+
             i = i-1;
         }
 
